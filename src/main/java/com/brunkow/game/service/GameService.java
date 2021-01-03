@@ -1,6 +1,6 @@
 package com.brunkow.game.service;
 
-import com.brunkow.game.Field;
+import com.brunkow.game.GameContext;
 import com.brunkow.game.event.*;
 import com.brunkow.game.play.Play;
 import com.brunkow.game.dao.GameRepository;
@@ -31,56 +31,60 @@ public class GameService {
         Game game;
         Team teamA = teamRepository.findByName("Vikings");
         Team teamB = teamRepository.findByName("Pirates");
-        Field field = new Field(teamA, teamB);
-        field.setYardLine(35);
+        GameContext gameContext = new GameContext(teamA, teamB);
+        gameContext.setYardLine(35);
         game = new Game(teamA, teamB);
-        runQuarter(game, field, 1);
-        field.switchSides();
-        runQuarter(game, field, 2);
-        halftime(game, field);
-        runQuarter(game, field,3);
-        field.switchSides();
-        runQuarter(game, field, 4);
+        runQuarter(game, gameContext);
+        gameContext.switchSides();
+        gameContext.nextQuarter();
+        runQuarter(game, gameContext);
+        halftime(game, gameContext);
+        runQuarter(game, gameContext);
+        gameContext.switchSides();
+        gameContext.nextQuarter();
+        runQuarter(game, gameContext);
         // if tied runQuarter(5);
         game.setScoreTeamA(0);
         game.setScoreTeamB(0);
         gameRepository.save(game);
     }
 
-    private void runQuarter(Game game, Field field, int quarter) {
-        int clock = 0;
+    private void runQuarter(Game game, GameContext gameContext) {
         GameEvent event;
         Play play;
-        logger.debug(quarter + " ===================================================================================");
-        if ((quarter == 1) || (quarter == 3))
-            field.setGameSituation(GameEvent.GameSituation.KICKOFF);
+        logger.debug(gameContext.getQuarter() + " ===================================================================================");
+        if ((gameContext.getQuarter() == 1) || (gameContext.getQuarter() == 3))
+            gameContext.setGameSituation(GameEvent.GameSituation.KICKOFF);
         StringBuffer printBuffer;
-        while ((clock < 900) || (field.getGameSituation().equals(GameEvent.GameSituation.TOUCHDOWN))){
-            play = Play.createPlay(game, field);
+        while ((gameContext.getClock() < 900) || (gameContext.getGameSituation().equals(GameEvent.GameSituation.TOUCHDOWN))){
+            play = Play.createPlay(game, gameContext);
             play.go();
             printBuffer = new StringBuffer();
             printBuffer.append(
-                    StringUtils.rightPad(field.getTeamName(), 30) + " " +
+                    StringUtils.rightPad(gameContext.getTeamName(), 30) + " " +
                             StringUtils.rightPad(play.getClass().getSimpleName(), 20) + " " +
-                            " L:" + round(field.getYardLine()) +
-                            " D:" + StringUtils.leftPad(Integer.toString(field.getDown()), 3));
-            event = GameEvent.getInstance(play, field);
+                            " L:" + round(gameContext.getYardLine()) +
+                            " D:" + StringUtils.leftPad(Integer.toString(gameContext.getDown()), 3));
+            event = GameEvent.getInstance(play, gameContext);
             event.go();
-            clock += play.getElapsedTime();
+            gameContext.addClock(play.getElapsedTime());
             printBuffer.append(
                     " Y:" + round(play.getYards()) +
-                    " S:" + round(field.getSeries()) +
-                    " L:" + round(field.getYardLine()) + " ");
+                    " S:" + round(gameContext.getSeries()) +
+                    " L:" + round(gameContext.getYardLine()) + " ");
             printBuffer.append(StringUtils.rightPad(event.getClass().getSimpleName(), 20) + " ");
-            printBuffer.append(field.getScore(0) + " - " + field.getScore(1));
+            printBuffer.append(gameContext.getScore(0) + " - " + gameContext.getScore(1));
+            printBuffer.append(" C:" + gameContext.getClock());
             logger.debug(printBuffer.toString());
-            field.setGameSituation(event.getGameSituation());
+            gameContext.setGameSituation(event.getGameSituation());
         }
     }
 
-    private void halftime(Game game, Field field) {
-        field.setGameSituation(GameEvent.GameSituation.NONE);
-        field.halftime();
+    private void halftime(Game game, GameContext gameContext) {
+        gameContext.setGameSituation(GameEvent.GameSituation.NONE);
+        gameContext.halftime();
+        gameContext.nextQuarter();
+
     }
 
     private static String round(double num) {

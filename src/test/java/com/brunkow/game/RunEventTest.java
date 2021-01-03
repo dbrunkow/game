@@ -8,7 +8,7 @@ import org.springframework.test.context.event.annotation.BeforeTestMethod;
 @SpringBootTest
 public class RunEventTest {
 
-    Field field;
+    GameContext gameContext;
 
     @BeforeTestMethod
     private void setup() {

@@ -1,32 +1,32 @@
 package com.brunkow.game.play;
 
-import com.brunkow.game.Field;
+import com.brunkow.game.GameContext;
 import com.brunkow.game.event.GameEvent;
 import com.brunkow.game.vo.Game;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.Random;
-
 public class RunPlay extends Play {
     private static final Logger logger = LoggerFactory.getLogger(RunPlay.class);
 
-    RunPlay(Game game, Field field) {
-        super(game, field);
+    RunPlay(Game game, GameContext gameContext) {
+        super(game, gameContext);
     }
 
     public void go() {
         double fumble = rand.nextInt(1000);
         if (fumble > 980) {
             fumble();
+            this.elapsedTime = 6;
         } else {
             runBall();
+            this.elapsedTime = 35;
         }
     }
 
     public void fumble() {
         nextEvent = GameEvent.NextEvent.FUMBLE;
-        this.elapsedTime = 60;
+        this.elapsedTime = 10;
     }
 
     public void runBall() {
@@ -45,11 +45,11 @@ public class RunPlay extends Play {
             // 0 to 10  0-79 80%
             yards = rand.nextInt(100) / 10.0;
         }
-        if (field.getYardsToTD() < yards) {
-            this.yards = field.getYardsToTD();
+        if (gameContext.getYardsToTD() < yards) {
+            this.yards = gameContext.getYardsToTD();
         } else {
             this.yards = yards;
         }
-        this.elapsedTime = 60;
+
     }
 }

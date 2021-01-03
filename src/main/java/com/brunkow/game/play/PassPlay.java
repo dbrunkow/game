@@ -1,26 +1,30 @@
 package com.brunkow.game.play;
 
-import com.brunkow.game.Field;
+import com.brunkow.game.GameContext;
 import com.brunkow.game.event.GameEvent;
 import com.brunkow.game.vo.Game;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.Random;
-
 public class PassPlay extends Play {
     private static final Logger logger = LoggerFactory.getLogger(PassPlay.class);
 
-    PassPlay(Game game, Field field) {
-        super(game, field);
+    PassPlay(Game game, GameContext gameContext) {
+        super(game, gameContext);
     }
 
     public void go() {
         double interception = rand.nextInt(1000);
         if (interception > 980) {
             interception();
+            this.elapsedTime = 10;
         } else {
             passBall();
+            if (this.yards == 0) {
+                this.elapsedTime = 6;
+            } else {
+                this.elapsedTime = 35;
+            }
         }
     }
 
@@ -45,11 +49,11 @@ public class PassPlay extends Play {
             // 0 to 10  0-79 80%
             yards = rand.nextInt(100) / 10.0 + 10;
         }
-        if (field.getYardsToTD() < yards) {
-            this.yards = field.getYardsToTD();
+        if (gameContext.getYardsToTD() < yards) {
+            this.yards = gameContext.getYardsToTD();
         } else {
             this.yards = yards;
         }
-        this.elapsedTime = 60;
+
     }
 }

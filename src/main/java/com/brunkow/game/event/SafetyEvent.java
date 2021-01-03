@@ -1,19 +1,19 @@
 package com.brunkow.game.event;
 
-import com.brunkow.game.Field;
+import com.brunkow.game.GameContext;
 import com.brunkow.game.play.Play;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class SafetyEvent extends GameEvent {
     private static final Logger logger = LoggerFactory.getLogger(SafetyEvent.class);
-    SafetyEvent(Play play, Field field) {
-        super(play, field);
+    SafetyEvent(Play play, GameContext gameContext) {
+        super(play, gameContext);
     }
     @Override
     public void go() {
         this.gameSituation = GameSituation.SAFETYKICKOFF;
-        logger.debug(field.getYardLine() + " " + play.getYards());
-        field.addScore(1-field.getDirection(), 2);
+        logger.debug(gameContext.getYardLine() + " " + play.getYards());
+        gameContext.addScore(1- gameContext.getDirection(), 2);
     }
 }

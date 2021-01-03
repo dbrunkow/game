@@ -1,6 +1,6 @@
 package com.brunkow.game.play;
 
-import com.brunkow.game.Field;
+import com.brunkow.game.GameContext;
 import com.brunkow.game.event.GameEvent;
 import com.brunkow.game.vo.Game;
 import org.slf4j.Logger;
@@ -15,27 +15,74 @@ public abstract class Play {
     Random rand = new Random();
     int elapsedTime;
     double yards = 0.0;
-    Field field;
+    GameContext gameContext;
     Game game;
 
-    public static Play createPlay(Game game, Field field) {
+    public static Play createPlay(Game game, GameContext gameContext) {
         Random rand = new Random();
         Play play;
-        if (GameEvent.GameSituation.KICKOFF.equals(field.getGameSituation())) {
-            play = new KickoffPlay(game, field);
-        } else if (GameEvent.GameSituation.TOUCHDOWN.equals(field.getGameSituation())) {
-            play = new KickExtraPointPlay(game, field);
-        } else if (GameEvent.GameSituation.SAFETYKICKOFF.equals(field.getGameSituation())) {
-            play = new SafetyKickoffPlay(game, field);
+        if (GameEvent.GameSituation.KICKOFF.equals(gameContext.getGameSituation())) {
+            play = new KickoffPlay(game, gameContext);
+        } else if (GameEvent.GameSituation.TOUCHDOWN.equals(gameContext.getGameSituation())) {
+            play = new KickExtraPointPlay(game, gameContext);
+        } else if (GameEvent.GameSituation.SAFETYKICKOFF.equals(gameContext.getGameSituation())) {
+            play = new SafetyKickoffPlay(game, gameContext);
 
         } else {
-            if (field.isFourthDown()) {
-                play = new PuntPlay(game, field);
-            } else {
-                if (rand.nextInt(2) == 0) {
-                    play = new PassPlay(game, field);
+            if ((gameContext.getClock() >= 870) && (gameContext.getYardsToTD() <= 30)
+                    && (gameContext.getQuarter() == 2)) {
+                play = new KickFieldGoalPlay(game, gameContext);
+            } else if ((gameContext.getClock() >= 870) && (gameContext.getYardsToTD() <= 35)
+                    && (gameContext.getQuarter() >= 4)
+                    && ((gameContext.getWinningBy() >= -3) && (gameContext.getWinningBy() <= 0))) {
+                play = new KickFieldGoalPlay(game, gameContext);
+
+            } else if (gameContext.isFourthDown()) {
+                if ((gameContext.getClock() >= 600)
+                        && (gameContext.getQuarter() >= 4)
+                        && (gameContext.getWinningBy() <= 0)) {
+                    if (rand.nextInt(20) == 0) {
+                        play = new RunPlay(game, gameContext);
+                    } else {
+                        play = new PassPlay(game, gameContext);
+                    }
+                } else if ((gameContext.getClock() >= 400) && (gameContext.getYardsToTD() <= 50)
+                        && ((gameContext.getQuarter() >= 4) || (gameContext.getQuarter() == 2))
+                        && (gameContext.getWinningBy() <= 0)) {
+                    if (rand.nextInt(5) == 0) {
+                        play = new RunPlay(game, gameContext);
+                    } else {
+                        play = new PassPlay(game, gameContext);
+                    }
+                } else if (gameContext.getYardsToTD() < 10) {
+                    if (gameContext.getWinningBy() >= -2) {
+                        play = new KickFieldGoalPlay(game, gameContext);
+                    } else {
+                        logger.debug("Going for it!");
+                        if (rand.nextInt(3) == 0) {
+                            play = new RunPlay(game, gameContext);
+                        } else {
+                            play = new PassPlay(game, gameContext);
+                        }
+                    }
+                } else if (gameContext.getYardsToTD() < 35) {
+                    play = new KickFieldGoalPlay(game, gameContext);
                 } else {
-                    play = new RunPlay(game, field);
+                    play = new PuntPlay(game, gameContext);
+                }
+            } else {
+                if ((gameContext.getQuarter() >= 4) && (gameContext.getWinningBy() <= 0)) {
+                    if (rand.nextInt(6) == 0) {
+                        play = new RunPlay(game, gameContext);
+                    } else {
+                        play = new PassPlay(game, gameContext);
+                    }
+                } else {
+                    if (rand.nextInt(2) == 0) {
+                        play = new RunPlay(game, gameContext);
+                    } else {
+                        play = new PassPlay(game, gameContext);
+                    }
                 }
             }
         }
@@ -44,8 +91,8 @@ public abstract class Play {
 
 
 
-    public Play(Game game, Field field) {
-        this.field = field;
+    public Play(Game game, GameContext gameContext) {
+        this.gameContext = gameContext;
         this.game = game;
     }
 

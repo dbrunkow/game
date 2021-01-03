@@ -9,8 +9,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class Field {
-    private static final Logger logger = LoggerFactory.getLogger(Field.class);
+public class GameContext {
+    private static final Logger logger = LoggerFactory.getLogger(GameContext.class);
     public static final int WEST = 0; // false
     public static final int EAST = 1; // true
     GameEvent.GameSituation gameSituation;
@@ -20,14 +20,30 @@ public class Field {
     double series;
     int down = 1;
     int direction;
+    int quarter;
+    int clock;
 
-    public Field(Team teamA, Team teamB) {
+    public GameContext(Team teamA, Team teamB) {
         teams = new ArrayList<Team>();
         teams.add(0, teamA);
         teams.add(1, teamB);
         direction = EAST; // Going towards B/East
         gameSituation = GameEvent.GameSituation.NONE;
+        clock = 0;
+        quarter = 1;
 
+    }
+
+    public int getClock() {
+        return clock;
+    }
+
+    public void setClock(int clock) {
+        this.clock = clock;
+    }
+
+    public void addClock(int clock) {
+        this.clock += clock;
     }
 
     public void switchSides() {
@@ -41,6 +57,7 @@ public class Field {
         newScores[0] = scores[1];
         newScores[1] = scores[0];
         scores = newScores;
+        clock = 0;
     }
 
     public void halftime() {
@@ -54,7 +71,25 @@ public class Field {
         newScores[0] = scores[1];
         newScores[1] = scores[0];
         scores = newScores;
+        clock = 0;
     }
+
+    public void nextQuarter() {
+        this.quarter++;
+        this.clock = 0;
+    }
+
+    public int getQuarter() {
+        return this.quarter;
+    }
+
+    public void setQuarter(int quarter) {
+        this.quarter = quarter;
+    }
+    public int getWinningBy() {
+        return getScore(this.direction) - getScore(1-direction);
+    }
+
 
     public String getTeamName() {
         return teams.get(this.direction).getFullName();
