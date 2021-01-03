@@ -1,4 +1,4 @@
-package com.brunkow.game;
+package com.brunkow.game.vo;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -6,6 +6,7 @@ import org.slf4j.LoggerFactory;
 import javax.persistence.*;
 
 import java.io.Serializable;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -20,6 +21,9 @@ public class Team implements Serializable {
     private String name;
     private String location;
     private int power;
+
+    @ManyToMany(cascade = CascadeType.ALL)
+    List<Game> games;
 
     @OneToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "oc_id", referencedColumnName = "id")
@@ -45,6 +49,10 @@ public class Team implements Serializable {
 
     public Team() {
 
+    }
+
+    public String getFullName() {
+        return getLocation() + " " + getName();
     }
 
     public Team(String name) {
@@ -107,7 +115,6 @@ public class Team implements Serializable {
         this.defensiveCoordinator = defensiveCoordinator;
     }
 
-
     public int getPower() {
         return power;
     }
@@ -130,5 +137,13 @@ public class Team implements Serializable {
 
     public void setHeadCoach(HeadCoach headCoach) {
         this.headCoach = headCoach;
+    }
+
+    public List<Game> getGames() {
+        return games;
+    }
+
+    public void setGames(List<Game> games) {
+        this.games = games;
     }
 }

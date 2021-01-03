@@ -1,6 +1,6 @@
 package com.brunkow.game.dao;
 
-import com.brunkow.game.Team;
+import com.brunkow.game.vo.Team;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 

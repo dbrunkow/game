@@ -1,6 +1,6 @@
 package com.brunkow.game.dao;
 
-import com.brunkow.game.DefensiveCoordinator;
+import com.brunkow.game.vo.DefensiveCoordinator;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 

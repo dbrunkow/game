@@ -38,4 +38,32 @@ insert into player (ID, FIRST_NAME, LAST_NAME, POSITION, TEAM_ID, POWER) VALUES 
 insert into player (ID, FIRST_NAME, LAST_NAME, POSITION, TEAM_ID, POWER) VALUES (4, 'Richard', 'Hutcheson', 'QB', 4, 12);
 insert into player (ID, FIRST_NAME, LAST_NAME, POSITION, TEAM_ID, POWER) VALUES (5, 'Ollie', 'Lute', 'QB', 5, 15);
 
-insert into depth_chart (ID, DEPTH, PLAYER_ID, POSITION, TEAM_ID) VALUES (hibernate_sequence.nextval, 2, 5, 'QB', 5);
+insert into player (ID, FIRST_NAME, LAST_NAME, POSITION, TEAM_ID, POWER) VALUES (6, 'Sid', 'Grothe', 'RB', 1, 10);
+insert into player (ID, FIRST_NAME, LAST_NAME, POSITION, TEAM_ID, POWER) VALUES (7, 'Granville', 'Smith', 'RB', 2, 11);
+insert into player (ID, FIRST_NAME, LAST_NAME, POSITION, TEAM_ID, POWER) VALUES (8, 'Fredric', 'Conlin', 'RB', 3, 11);
+insert into player (ID, FIRST_NAME, LAST_NAME, POSITION, TEAM_ID, POWER) VALUES (9, 'Benedict', 'Weedon', 'RB', 4, 12);
+insert into player (ID, FIRST_NAME, LAST_NAME, POSITION, TEAM_ID, POWER) VALUES (10, 'Brenton', 'Downer', 'RB', 5, 15);
+insert into player (ID, FIRST_NAME, LAST_NAME, POSITION, TEAM_ID, POWER) VALUES (11, 'Rodrigo', 'Doane', 'RB', 1, 10);
+insert into player (ID, FIRST_NAME, LAST_NAME, POSITION, TEAM_ID, POWER) VALUES (12, 'Jarrett', 'Primmer', 'RB', 2, 11);
+insert into player (ID, FIRST_NAME, LAST_NAME, POSITION, TEAM_ID, POWER) VALUES (13, 'Carlo', 'Jefferies', 'RB', 3, 11);
+insert into player (ID, FIRST_NAME, LAST_NAME, POSITION, TEAM_ID, POWER) VALUES (14, 'Deandre', 'Minott', 'RB', 4, 12);
+insert into player (ID, FIRST_NAME, LAST_NAME, POSITION, TEAM_ID, POWER) VALUES (15, 'Hank', 'Kissinger', 'RB', 5, 15);
+
+insert into depth_chart (ID, DEPTH, PLAYER_ID, POSITION, TEAM_ID) VALUES (hibernate_sequence.nextval, 1, 1, 'QB', 1);
+insert into depth_chart (ID, DEPTH, PLAYER_ID, POSITION, TEAM_ID) VALUES (hibernate_sequence.nextval, 1, 2, 'QB', 2);
+insert into depth_chart (ID, DEPTH, PLAYER_ID, POSITION, TEAM_ID) VALUES (hibernate_sequence.nextval, 1, 3, 'QB', 3);
+insert into depth_chart (ID, DEPTH, PLAYER_ID, POSITION, TEAM_ID) VALUES (hibernate_sequence.nextval, 1, 4, 'QB', 4);
+insert into depth_chart (ID, DEPTH, PLAYER_ID, POSITION, TEAM_ID) VALUES (hibernate_sequence.nextval, 1, 5, 'QB', 5);
+
+insert into depth_chart (ID, DEPTH, PLAYER_ID, POSITION, TEAM_ID) VALUES (hibernate_sequence.nextval, 1, 6, 'RB', 1);
+insert into depth_chart (ID, DEPTH, PLAYER_ID, POSITION, TEAM_ID) VALUES (hibernate_sequence.nextval, 1, 7, 'RB', 2);
+insert into depth_chart (ID, DEPTH, PLAYER_ID, POSITION, TEAM_ID) VALUES (hibernate_sequence.nextval, 1, 8, 'RB', 3);
+insert into depth_chart (ID, DEPTH, PLAYER_ID, POSITION, TEAM_ID) VALUES (hibernate_sequence.nextval, 1, 9, 'RB', 4);
+insert into depth_chart (ID, DEPTH, PLAYER_ID, POSITION, TEAM_ID) VALUES (hibernate_sequence.nextval, 1, 10, 'RB', 5);
+
+
+insert into depth_chart (ID, DEPTH, PLAYER_ID, POSITION, TEAM_ID) VALUES (hibernate_sequence.nextval, 2, 11, 'RB', 1);
+insert into depth_chart (ID, DEPTH, PLAYER_ID, POSITION, TEAM_ID) VALUES (hibernate_sequence.nextval, 2, 12, 'RB', 2);
+insert into depth_chart (ID, DEPTH, PLAYER_ID, POSITION, TEAM_ID) VALUES (hibernate_sequence.nextval, 2, 13, 'RB', 3);
+insert into depth_chart (ID, DEPTH, PLAYER_ID, POSITION, TEAM_ID) VALUES (hibernate_sequence.nextval, 2, 14, 'RB', 4);
+insert into depth_chart (ID, DEPTH, PLAYER_ID, POSITION, TEAM_ID) VALUES (hibernate_sequence.nextval, 2, 15, 'RB', 5);
