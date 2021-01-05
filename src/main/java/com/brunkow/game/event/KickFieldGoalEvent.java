@@ -13,6 +13,6 @@ public class KickFieldGoalEvent extends GameEvent {
     @Override
     public void go() {
         this.gameSituation = GameSituation.KICKOFF;
-        gameContext.addScore(gameContext.getDirection(), 3);
+        gameContext.addScore(3);
     }
 }

@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 
@@ -13,28 +14,29 @@ public class GameContext {
     private static final Logger logger = LoggerFactory.getLogger(GameContext.class);
     public static final int WEST = 0; // false
     public static final int EAST = 1; // true
-    int teamA = EAST;
-    int teamB = WEST;
+    public static final int TEAM_A = 0;
+    public static final int TEAM_B = 1;
     GameEvent.GameSituation gameSituation;
     int scores[] = { 0, 0 };
     double yardLine;
     List<Team> teams;
-    
     double series;
     int down = 1;
     int direction;
+    int teamOnOffense;
+
     int quarter;
     int clock;
 
     public GameContext(Team teamA, Team teamB) {
-        teams = new ArrayList<Team>();
-        teams.add(0, teamA);
-        teams.add(1, teamB);
+        this.teams = new ArrayList<Team>();
+        this.teams.add(teamA);
+        this.teams.add(teamB);
         direction = EAST; // Going towards B/East
+        teamOnOffense = TEAM_A;
         gameSituation = GameEvent.GameSituation.NONE;
         clock = 0;
         quarter = 1;
-
     }
 
     public int getClock() {
@@ -50,34 +52,15 @@ public class GameContext {
     }
 
     public void switchSides() {
-        List<Team> newTeams = new ArrayList<Team>();
-        newTeams.add(0, this.teams.get(1));
-        newTeams.add(1, this.teams.get(0));
-        this.teams = newTeams;
         this.yardLine = 100 - this.yardLine;
         this.direction = 1 - this.direction;
-        int[] newScores = new int[2];
-        newScores[0] = scores[1];
-        newScores[1] = scores[0];
-        teamA = 1;
-        teamB = 0;
-        scores = newScores;
         clock = 0;
     }
 
     public void halftime() {
-        List<Team> newTeams = new ArrayList<Team>();
-        newTeams.add(0, this.teams.get(1));
-        newTeams.add(1, this.teams.get(0));
-        this.teams = newTeams;
         this.yardLine = 100 - this.yardLine;
         this.direction = WEST;
-        int[] newScores = new int[2];
-        newScores[0] = scores[1];
-        newScores[1] = scores[0];
-        teamA = 1;
-        teamB = 0;
-        scores = newScores;
+        teamOnOffense = TEAM_B;
         clock = 0;
     }
 
@@ -93,28 +76,29 @@ public class GameContext {
     public void setQuarter(int quarter) {
         this.quarter = quarter;
     }
+
     public int getWinningBy() {
-        return getScore(this.direction) - getScore(1-direction);
+        return getScore(TEAM_A) - getScore(TEAM_B);
     }
 
     public Team getOffenseTeam() {
-        return teams.get(this.direction);
+        return teams.get(this.teamOnOffense);
     }
 
     public Team getDefensiveTeam() {
-        return teams.get(1-this.direction);
+        return teams.get(1-this.teamOnOffense);
     }
 
     public String getOffenseTeamName() {
-        return teams.get(this.direction).getFullName();
+        return getOffenseTeam().getFullName();
     }
 
     public String getDefenseTeamName() {
-        return teams.get(1-this.direction).getFullName();
+        return getDefensiveTeam().getFullName();
     }
 
-    public String getTeamName() {
-        return teams.get(this.direction).getFullName();
+    public void addScore(int points) {
+        addScore(getTeamOnOffense(), points);
     }
 
     public void addScore(int team, int points) {
@@ -150,6 +134,7 @@ public class GameContext {
         this.series = 0.0;
         this.down = 1;
         this.direction = 1-this.direction;
+        this.teamOnOffense = 1-this.teamOnOffense;
     }
 
     public boolean isSafety() {
@@ -162,6 +147,14 @@ public class GameContext {
         } else {
             return ((getYardsToTD(yards) < 0) || (getYardsToTD(yards) > 100));
         }
+    }
+
+    public int getTeamOnOffense() {
+        return teamOnOffense;
+    }
+
+    public void setTeamOnOffense(int teamOnOffense) {
+        this.teamOnOffense = teamOnOffense;
     }
 
     public double getYardsToTD(double yards) {
@@ -216,12 +209,16 @@ public class GameContext {
     }
     public boolean isDirectionEast() { return direction == EAST; }
     public boolean isDirectionWest() { return direction == WEST; }
+
+    /*
     public void setDirection(int direction) {
         this.direction = direction;
     }
     public void switchDirection() {
         this.direction = 1-this.direction;
     }
+    */
+
     public boolean isTouchdown() {
         if (this.direction == EAST) {
             return this.yardLine >= 100.0;

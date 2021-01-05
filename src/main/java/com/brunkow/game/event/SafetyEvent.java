@@ -14,6 +14,6 @@ public class SafetyEvent extends GameEvent {
     public void go() {
         this.gameSituation = GameSituation.SAFETYKICKOFF;
         logger.debug(gameContext.getYardLine() + " " + play.getYards());
-        gameContext.addScore(1- gameContext.getDirection(), 2);
+        gameContext.addScore(1- gameContext.getTeamOnOffense(), 2);
     }
 }

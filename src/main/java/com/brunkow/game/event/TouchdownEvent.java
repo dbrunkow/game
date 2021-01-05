@@ -15,6 +15,6 @@ public class TouchdownEvent extends GameEvent {
         this.gameSituation = GameSituation.TOUCHDOWN;
         gameContext.addYards(play.getYards());
         gameContext.setSeries(0);
-        gameContext.addScore(gameContext.getDirection(), 6);
+        gameContext.addScore(6);
     }
 }

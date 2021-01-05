@@ -18,6 +18,6 @@ public class ExtraPointEvent extends GameEvent {
         } else {
             gameContext.setYardLine(0);
         }
-        gameContext.addScore(gameContext.getDirection(), 1);
+        gameContext.addScore(1);
     }
 }

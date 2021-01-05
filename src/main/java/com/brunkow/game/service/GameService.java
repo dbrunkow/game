@@ -66,7 +66,7 @@ public class GameService {
             play.go();
             printBuffer = new StringBuffer();
             printBuffer.append(
-                    StringUtils.rightPad(gameContext.getTeamName(), 30) + " " +
+                    StringUtils.rightPad(gameContext.getOffenseTeamName(), 30) + " " +
                             StringUtils.rightPad(play.getClass().getSimpleName(), 20) + " " +
                             " L:" + round(gameContext.getYardLine()) +
                             " D:" + StringUtils.leftPad(Integer.toString(gameContext.getDown()), 3));
