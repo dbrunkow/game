@@ -65,4 +65,5 @@ public class DepthChart implements Serializable {
     public void setDepth(int depth) {
         this.depth = depth;
     }
+
 }

@@ -13,10 +13,13 @@ public class GameContext {
     private static final Logger logger = LoggerFactory.getLogger(GameContext.class);
     public static final int WEST = 0; // false
     public static final int EAST = 1; // true
+    int teamA = EAST;
+    int teamB = WEST;
     GameEvent.GameSituation gameSituation;
     int scores[] = { 0, 0 };
     double yardLine;
     List<Team> teams;
+    
     double series;
     int down = 1;
     int direction;
@@ -56,6 +59,8 @@ public class GameContext {
         int[] newScores = new int[2];
         newScores[0] = scores[1];
         newScores[1] = scores[0];
+        teamA = 1;
+        teamB = 0;
         scores = newScores;
         clock = 0;
     }
@@ -70,6 +75,8 @@ public class GameContext {
         int[] newScores = new int[2];
         newScores[0] = scores[1];
         newScores[1] = scores[0];
+        teamA = 1;
+        teamB = 0;
         scores = newScores;
         clock = 0;
     }
@@ -90,6 +97,21 @@ public class GameContext {
         return getScore(this.direction) - getScore(1-direction);
     }
 
+    public Team getOffenseTeam() {
+        return teams.get(this.direction);
+    }
+
+    public Team getDefensiveTeam() {
+        return teams.get(1-this.direction);
+    }
+
+    public String getOffenseTeamName() {
+        return teams.get(this.direction).getFullName();
+    }
+
+    public String getDefenseTeamName() {
+        return teams.get(1-this.direction).getFullName();
+    }
 
     public String getTeamName() {
         return teams.get(this.direction).getFullName();

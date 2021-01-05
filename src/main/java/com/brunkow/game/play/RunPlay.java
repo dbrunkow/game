@@ -2,9 +2,13 @@ package com.brunkow.game.play;
 
 import com.brunkow.game.GameContext;
 import com.brunkow.game.event.GameEvent;
+import com.brunkow.game.vo.DepthChart;
 import com.brunkow.game.vo.Game;
+import com.brunkow.game.vo.Player;
+import com.brunkow.game.vo.Team;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 
 public class RunPlay extends Play {
     private static final Logger logger = LoggerFactory.getLogger(RunPlay.class);
@@ -32,13 +36,15 @@ public class RunPlay extends Play {
     public void runBall() {
         nextEvent = GameEvent.NextEvent.RUN;
         double yards;
-        double group = rand.nextInt(1000);
-        if (group <= 120.0) {
+        double rawPower = rand.nextInt(1000);
+        double totalPower = rawPower + (getPower() * 15.0);
+        logger.debug("Power: " + (getPower() * 15.0));
+        if (totalPower <= 120.0) {
             yards = -1.0 * rand.nextInt(100) / 10.0;
-        } else if (group < 210) {
+        } else if (totalPower < 210) {
             // 11 to 20 10%
             yards = rand.nextInt(100) / 10.0 + 10.0;
-        } else if (group < 230) {
+        } else if (totalPower < 230) {
             // 20+  1% = 2
             yards = 100.0;
         } else  {
@@ -50,6 +56,16 @@ public class RunPlay extends Play {
         } else {
             this.yards = yards;
         }
+    }
 
+    public double getPower() {
+        Team offense = gameContext.getOffenseTeam();
+        int offensivePower = offense.getPower();
+        Team defense = gameContext.getDefensiveTeam();
+        int defensivePower = defense.getPower();
+        DepthChart depthChart = depthChartRepository.findByTeamIdAndPositionAndDepth(offense.getId(), "RB", 1);
+        Player runningBack = depthChart.getPlayer();
+        logger.debug("Power: O: " + offensivePower + " D: " + defensivePower + " RB: " + runningBack.getPower());
+        return Double.valueOf(runningBack.getPower() + offensivePower - defensivePower - defensivePower);
     }
 }

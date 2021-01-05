@@ -9,5 +9,7 @@ import java.util.Set;
 @Repository
 public interface PlayerRepository extends CrudRepository<Player, Long> {
     Set<Player> findByTeamId(Long teamId);
+
+    Player findByTeamIdAndPosition(Long teamId, String position);
 }
 

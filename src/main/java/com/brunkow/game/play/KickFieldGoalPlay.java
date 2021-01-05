@@ -38,4 +38,8 @@ public class KickFieldGoalPlay extends Play {
             return kicking <= 10;
         }
     }
+
+    public double getPower() {
+        return 0.0;
+    }
 }

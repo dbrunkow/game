@@ -36,7 +36,7 @@ insert into player (ID, FIRST_NAME, LAST_NAME, POSITION, TEAM_ID, POWER) VALUES 
 insert into player (ID, FIRST_NAME, LAST_NAME, POSITION, TEAM_ID, POWER) VALUES (2, 'Burl', 'Przybylski', 'QB', 2, 11);
 insert into player (ID, FIRST_NAME, LAST_NAME, POSITION, TEAM_ID, POWER) VALUES (3, 'Jerrold', 'Ohern', 'QB', 3, 11);
 insert into player (ID, FIRST_NAME, LAST_NAME, POSITION, TEAM_ID, POWER) VALUES (4, 'Richard', 'Hutcheson', 'QB', 4, 12);
-insert into player (ID, FIRST_NAME, LAST_NAME, POSITION, TEAM_ID, POWER) VALUES (5, 'Ollie', 'Lute', 'QB', 5, 15);
+insert into player (ID, FIRST_NAME, LAST_NAME, POSITION, TEAM_ID, POWER) VALUES (5, 'Ollie', 'Lute', 'QB', 5, 25);
 
 insert into player (ID, FIRST_NAME, LAST_NAME, POSITION, TEAM_ID, POWER) VALUES (6, 'Sid', 'Grothe', 'RB', 1, 10);
 insert into player (ID, FIRST_NAME, LAST_NAME, POSITION, TEAM_ID, POWER) VALUES (7, 'Granville', 'Smith', 'RB', 2, 11);

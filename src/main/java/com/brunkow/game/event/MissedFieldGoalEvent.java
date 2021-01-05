@@ -10,4 +10,7 @@ public class MissedFieldGoalEvent extends GameEvent {
     MissedFieldGoalEvent(Play play, GameContext gameContext) {
         super(play, gameContext);
     }
+    public void go() {
+        gameContext.changePossession();
+    }
 }

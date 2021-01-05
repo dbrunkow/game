@@ -1,6 +1,7 @@
 package com.brunkow.game.service;
 
 import com.brunkow.game.GameContext;
+import com.brunkow.game.dao.DepthChartRepository;
 import com.brunkow.game.event.*;
 import com.brunkow.game.play.Play;
 import com.brunkow.game.dao.GameRepository;
@@ -25,6 +26,9 @@ public class GameService {
 
     @Autowired
     GameRepository gameRepository;
+
+    @Autowired
+    DepthChartRepository depthChartRepository;
 
     @Transactional
     public void doGame() {
@@ -58,6 +62,7 @@ public class GameService {
         StringBuffer printBuffer;
         while ((gameContext.getClock() < 900) || (gameContext.getGameSituation().equals(GameEvent.GameSituation.TOUCHDOWN))){
             play = Play.createPlay(game, gameContext);
+            play.addDepthChartRepository(depthChartRepository);
             play.go();
             printBuffer = new StringBuffer();
             printBuffer.append(
@@ -75,6 +80,7 @@ public class GameService {
             printBuffer.append(StringUtils.rightPad(event.getClass().getSimpleName(), 20) + " ");
             printBuffer.append(gameContext.getScore(0) + " - " + gameContext.getScore(1));
             printBuffer.append(" C:" + gameContext.getClock());
+            printBuffer.append(" O: " + gameContext.getOffenseTeamName() + " D: " + gameContext.getDefenseTeamName());
             logger.debug(printBuffer.toString());
             gameContext.setGameSituation(event.getGameSituation());
         }

@@ -17,4 +17,8 @@ public class PuntPlay extends Play {
         nextEvent = GameEvent.NextEvent.PUNT;
         this.elapsedTime = 10;
     }
+
+    public double getPower() {
+        return 0.0;
+    }
 }

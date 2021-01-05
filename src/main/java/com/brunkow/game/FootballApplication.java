@@ -66,6 +66,9 @@ public class FootballApplication  implements CommandLineRunner {
 						" " + team.getHeadCoach().getLastName());
 			}
 
+			logger.debug("Find starting runningback");
+			logger.debug(depthChartRepository.findByTeamIdAndPositionAndDepth(team.getId(), "RB", 1).getPlayer().getLastName());
+
 			logger.debug("Players");
 			Iterable<Player> players = playerRepository.findByTeamId(team.getId());
 			players.forEach(player -> {

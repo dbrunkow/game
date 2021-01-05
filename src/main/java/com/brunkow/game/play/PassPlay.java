@@ -14,9 +14,12 @@ public class PassPlay extends Play {
     }
 
     public void go() {
-        double interception = rand.nextInt(1000);
-        if (interception > 980) {
-            interception();
+        double turnover = rand.nextInt(1000);
+        if (turnover > 980) {
+            nextEvent = GameEvent.NextEvent.INTERCEPTION;
+            this.elapsedTime = 10;
+        } else if (turnover > 970) {
+            nextEvent = GameEvent.NextEvent.FUMBLE;
             this.elapsedTime = 10;
         } else {
             passBall();
@@ -26,11 +29,6 @@ public class PassPlay extends Play {
                 this.elapsedTime = 35;
             }
         }
-    }
-
-    public void interception() {
-        nextEvent = GameEvent.NextEvent.INTERCEPTION;
-        this.elapsedTime = 60;
     }
 
     public void passBall() {
@@ -55,5 +53,9 @@ public class PassPlay extends Play {
             this.yards = yards;
         }
 
+    }
+
+    public double getPower() {
+        return 0.0;
     }
 }

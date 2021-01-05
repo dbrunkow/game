@@ -22,4 +22,8 @@ public class KickExtraPointPlay extends Play {
         }
         gameContext.setDown(1);
     }
+
+    public double getPower() {
+        return 0.0;
+    }
 }

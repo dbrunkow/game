@@ -21,4 +21,8 @@ public class KickoffPlay extends Play {
             gameContext.setYardLine(65);
         this.elapsedTime = 6;
     }
+
+    public double getPower() {
+        return 0.0;
+    }
 }

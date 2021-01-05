@@ -1,6 +1,7 @@
 package com.brunkow.game.play;
 
 import com.brunkow.game.GameContext;
+import com.brunkow.game.dao.DepthChartRepository;
 import com.brunkow.game.event.GameEvent;
 import com.brunkow.game.vo.Game;
 import org.slf4j.Logger;
@@ -17,6 +18,13 @@ public abstract class Play {
     double yards = 0.0;
     GameContext gameContext;
     Game game;
+    DepthChartRepository depthChartRepository;
+
+    public void addDepthChartRepository(DepthChartRepository depthChartRepository) {
+        this.depthChartRepository = depthChartRepository;
+    }
+
+    abstract public double getPower();
 
     public static Play createPlay(Game game, GameContext gameContext) {
         Random rand = new Random();
@@ -27,7 +35,6 @@ public abstract class Play {
             play = new KickExtraPointPlay(game, gameContext);
         } else if (GameEvent.GameSituation.SAFETYKICKOFF.equals(gameContext.getGameSituation())) {
             play = new SafetyKickoffPlay(game, gameContext);
-
         } else {
             if ((gameContext.getClock() >= 870) && (gameContext.getYardsToTD() <= 30)
                     && (gameContext.getQuarter() == 2)) {
@@ -88,8 +95,6 @@ public abstract class Play {
         }
         return play;
     }
-
-
 
     public Play(Game game, GameContext gameContext) {
         this.gameContext = gameContext;
