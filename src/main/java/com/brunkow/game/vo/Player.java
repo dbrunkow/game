@@ -71,4 +71,16 @@ public class Player implements Serializable {
     public void setPower(int power) {
         this.power = power;
     }
+
+    @Override
+    public int hashCode()
+    {
+        return (id.toString() + team.getId().toString()).hashCode();
+    }
+
+    @Override
+    public boolean equals(Object o)
+    {
+        return (id.toString() + team.getId().toString()).equals(o);
+    }
 }

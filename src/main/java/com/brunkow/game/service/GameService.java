@@ -51,6 +51,7 @@ public class GameService {
         game.setScoreTeamA(0);
         game.setScoreTeamB(0);
         gameRepository.save(game);
+        gameContext.printYards();
     }
 
     private void runQuarter(Game game, GameContext gameContext) {
@@ -78,9 +79,11 @@ public class GameService {
                     " S:" + round(gameContext.getSeries()) +
                     " L:" + round(gameContext.getYardLine()) + " ");
             printBuffer.append(StringUtils.rightPad(event.getClass().getSimpleName(), 20) + " ");
-            printBuffer.append(gameContext.getScore(0) + " - " + gameContext.getScore(1));
-            printBuffer.append(" C:" + gameContext.getClock());
-            printBuffer.append(" O: " + gameContext.getOffenseTeamName() + " D: " + gameContext.getDefenseTeamName());
+            printBuffer.append(" C:" + gameContext.getClock() + " ");
+            printBuffer.append(gameContext.getTeams().get(gameContext.TEAM_A).getFullName() +
+                                    " ( " + gameContext.getScore(gameContext.TEAM_A) + " )   " +
+                                gameContext.getTeams().get(gameContext.TEAM_B).getFullName() +
+                                    " ( " + gameContext.getScore(gameContext.TEAM_B) + " )   ");
             logger.debug(printBuffer.toString());
             gameContext.setGameSituation(event.getGameSituation());
         }

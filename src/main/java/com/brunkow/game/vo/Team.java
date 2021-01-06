@@ -42,10 +42,10 @@ public class Team implements Serializable {
     private HeadCoach headCoach;
 
     @OneToMany(mappedBy = "team", cascade = CascadeType.PERSIST)
-    Set<Player> players;
+    List<Player> players;
 
     @OneToMany(mappedBy = "team", cascade = CascadeType.PERSIST)
-    Set<DepthChart> depthCharts;
+    List<DepthChart> depthCharts;
 
     public Team() {
 
@@ -91,19 +91,19 @@ public class Team implements Serializable {
         this.offensiveCoordinator = offensiveCoordinator;
     }
 
-    public Set<Player> getPlayers() {
+    public List<Player> getPlayers() {
         return players;
     }
 
-    public void setPlayers(Set<Player> players) {
+    public void setPlayers(List<Player> players) {
         this.players = players;
     }
 
-    public Set<DepthChart> getDepthCharts() {
+    public List<DepthChart> getDepthCharts() {
         return depthCharts;
     }
 
-    public void setDepthCharts(Set<DepthChart> depthCharts) {
+    public void setDepthCharts(List<DepthChart> depthCharts) {
         this.depthCharts = depthCharts;
     }
 

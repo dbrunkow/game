@@ -12,17 +12,5 @@ public class RunEvent extends GameEvent {
     }
     @Override
     public void go() {
-        gameContext.addYards(play.getYards());
-        if (gameContext.isFourthDown()) {
-            logger.debug("Turnover on downs");
-            gameContext.changePossession();
-        } else if (gameContext.isFirstDown()) {
-            //logger.debug("First Down");
-            //Game.logOffenseDefence(game);
-            gameContext.setSeries(0.0);
-            gameContext.setDown(1);
-        } else {
-            gameContext.addDown();
-        }
     }
 }

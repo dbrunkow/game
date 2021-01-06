@@ -1,12 +1,16 @@
 package com.brunkow.game;
 
 import com.brunkow.game.event.GameEvent;
+import com.brunkow.game.vo.Player;
 import com.brunkow.game.vo.Team;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.math3.util.Precision;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 
 
@@ -27,6 +31,9 @@ public class GameContext {
 
     int quarter;
     int clock;
+    List<HashMap<Player,Double>> runYards = new ArrayList<>();
+    List<HashMap<Player,Double>> passYards = new ArrayList<>();
+
 
     public GameContext(Team teamA, Team teamB) {
         this.teams = new ArrayList<Team>();
@@ -37,6 +44,10 @@ public class GameContext {
         gameSituation = GameEvent.GameSituation.NONE;
         clock = 0;
         quarter = 1;
+        runYards.add(0, new HashMap<Player, Double>());
+        runYards.add(1, new HashMap<Player, Double>());
+        passYards.add(0, new HashMap<Player, Double>());
+        passYards.add(1, new HashMap<Player, Double>());
     }
 
     public int getClock() {
@@ -111,6 +122,46 @@ public class GameContext {
 
     public int getScore(int team) {
         return scores[team];
+    }
+
+    public void addRunYards(double yards, int teamId, Player player) {
+        addYards(yards);
+        // if not there add.
+        logger.debug("TeamId: " + teamId);
+        if (runYards.get(teamId).get(player) == null)
+            runYards.get(teamId).put(player, 0.0);
+        runYards.get(teamId).put(player, runYards.get(teamId).get(player) + yards);
+    }
+
+    public void addPassYards(double yards, int teamId, Player player) {
+        addYards(yards);
+        logger.debug("TeamId: " + teamId);
+        if (passYards.get(teamId).get(player) == null)
+            passYards.get(teamId).put(player, 0.0);
+        passYards.get(teamId).put(player, runYards.get(teamId).get(player) + yards);
+    }
+
+    public void printYards() {
+        //List<HashMap<Player,Double>> runYards = new ArrayList<>();
+        HashMap<Player, Double> mapA = runYards.get(GameContext.TEAM_A);
+        logger.debug(teams.get(TEAM_A).getFullName());
+        mapA.keySet().iterator().forEachRemaining(
+            player ->
+                    logger.debug(player.getFirstName() + " " + player.getLastName() +
+                            " " + round(mapA.get(player).doubleValue()) + " yards")
+        );
+        logger.debug("");
+        HashMap<Player, Double> mapB = runYards.get(GameContext.TEAM_B);
+        logger.debug(teams.get(TEAM_B).getFullName());
+        mapB.keySet().iterator().forEachRemaining(
+                player ->
+                        logger.debug(player.getFirstName() + " " + player.getLastName() +
+                                " " + round(mapB.get(player).doubleValue()) + " yards")
+        );
+    }
+
+    private static String round(double num) {
+        return StringUtils.leftPad(Double.toString(Precision.round(num, 1)),5);
     }
 
     public void addYards(double yards) {
@@ -218,6 +269,14 @@ public class GameContext {
         this.direction = 1-this.direction;
     }
     */
+
+    public List<Team> getTeams() {
+        return teams;
+    }
+
+    public void setTeams(List<Team> teams) {
+        this.teams = teams;
+    }
 
     public boolean isTouchdown() {
         if (this.direction == EAST) {

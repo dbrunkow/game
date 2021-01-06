@@ -26,6 +26,20 @@ public class RunPlay extends Play {
             runBall();
             this.elapsedTime = 35;
         }
+        DepthChart depthChart =
+            depthChartRepository.findByTeamIdAndPositionAndDepth(
+                    gameContext.getOffenseTeam().getId(), "RB", 1);
+        gameContext.addRunYards(getYards(), gameContext.getTeamOnOffense(), depthChart.getPlayer());
+        if (gameContext.isFourthDown()) {
+            logger.debug("Turnover on downs");
+            gameContext.changePossession();
+        } else if (gameContext.isFirstDown()) {
+            gameContext.setSeries(0.0);
+            gameContext.setDown(1);
+        } else {
+            gameContext.addDown();
+        }
+
     }
 
     public void fumble() {
