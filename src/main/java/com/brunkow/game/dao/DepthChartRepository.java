@@ -1,7 +1,6 @@
 package com.brunkow.game.dao;
 
 import com.brunkow.game.vo.DepthChart;
-import com.brunkow.game.vo.Player;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 

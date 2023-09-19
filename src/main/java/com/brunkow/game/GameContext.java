@@ -10,11 +10,10 @@ import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 
 
-public class GameContext {
+public class GameContext extends GameStats {
     private static final Logger logger = LoggerFactory.getLogger(GameContext.class);
     public static final int WEST = 0; // false
     public static final int EAST = 1; // true
@@ -23,20 +22,17 @@ public class GameContext {
     GameEvent.GameSituation gameSituation;
     int scores[] = { 0, 0 };
     double yardLine;
-    List<Team> teams;
     double series;
     int down = 1;
     int direction;
     int teamOnOffense;
-
     int quarter;
     int clock;
-    List<HashMap<Player,Double>> runYards = new ArrayList<>();
-    List<HashMap<Player,Double>> passYards = new ArrayList<>();
-
-
+    List<HashMap<String,HashMap<Player,Double>>> runYards = new ArrayList<>();
+    List<HashMap<String,HashMap<Player,Double>>> passYards = new ArrayList<>();
     public GameContext(Team teamA, Team teamB) {
-        this.teams = new ArrayList<Team>();
+        super();
+        this.teams = new ArrayList<>();
         this.teams.add(teamA);
         this.teams.add(teamB);
         direction = EAST; // Going towards B/East
@@ -44,10 +40,6 @@ public class GameContext {
         gameSituation = GameEvent.GameSituation.NONE;
         clock = 0;
         quarter = 1;
-        runYards.add(0, new HashMap<Player, Double>());
-        runYards.add(1, new HashMap<Player, Double>());
-        passYards.add(0, new HashMap<Player, Double>());
-        passYards.add(1, new HashMap<Player, Double>());
     }
 
     public int getClock() {
@@ -127,37 +119,17 @@ public class GameContext {
     public void addRunYards(double yards, int teamId, Player player) {
         addYards(yards);
         // if not there add.
-        logger.debug("TeamId: " + teamId);
-        if (runYards.get(teamId).get(player) == null)
-            runYards.get(teamId).put(player, 0.0);
-        runYards.get(teamId).put(player, runYards.get(teamId).get(player) + yards);
+        //logger.debug("TeamId: " + teamId);
+        addRunStats(teamId, player, 1, yards);
     }
 
     public void addPassYards(double yards, int teamId, Player player) {
         addYards(yards);
-        logger.debug("TeamId: " + teamId);
-        if (passYards.get(teamId).get(player) == null)
-            passYards.get(teamId).put(player, 0.0);
-        passYards.get(teamId).put(player, runYards.get(teamId).get(player) + yards);
-    }
-
-    public void printYards() {
-        //List<HashMap<Player,Double>> runYards = new ArrayList<>();
-        HashMap<Player, Double> mapA = runYards.get(GameContext.TEAM_A);
-        logger.debug(teams.get(TEAM_A).getFullName());
-        mapA.keySet().iterator().forEachRemaining(
-            player ->
-                    logger.debug(player.getFirstName() + " " + player.getLastName() +
-                            " " + round(mapA.get(player).doubleValue()) + " yards")
-        );
-        logger.debug("");
-        HashMap<Player, Double> mapB = runYards.get(GameContext.TEAM_B);
-        logger.debug(teams.get(TEAM_B).getFullName());
-        mapB.keySet().iterator().forEachRemaining(
-                player ->
-                        logger.debug(player.getFirstName() + " " + player.getLastName() +
-                                " " + round(mapB.get(player).doubleValue()) + " yards")
-        );
+        if (yards > 0) {
+            addPassStats(teamId, player, 1, 1, yards);
+        } else {
+            addPassStats(teamId, player, 1, 0, yards);
+        }
     }
 
     private static String round(double num) {
@@ -269,14 +241,6 @@ public class GameContext {
         this.direction = 1-this.direction;
     }
     */
-
-    public List<Team> getTeams() {
-        return teams;
-    }
-
-    public void setTeams(List<Team> teams) {
-        this.teams = teams;
-    }
 
     public boolean isTouchdown() {
         if (this.direction == EAST) {

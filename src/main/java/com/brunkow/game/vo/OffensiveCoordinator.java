@@ -1,7 +1,5 @@
 package com.brunkow.game.vo;
 
-import com.brunkow.game.vo.Coach;
-import com.brunkow.game.vo.DefensiveCoordinator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

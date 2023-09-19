@@ -9,16 +9,13 @@ import org.slf4j.LoggerFactory;
 public class PuntPlay extends Play {
     private static final Logger logger = LoggerFactory.getLogger(PuntPlay.class);
 
-    PuntPlay(Game game, GameContext gameContext) {
-        super(game, gameContext);
-    }
-
     public void go() {
         nextEvent = GameEvent.NextEvent.PUNT;
+        double rawPower = getRandomPower(1000);
         this.elapsedTime = 10;
     }
 
-    public double getPower() {
+    public double getTeamPlayPower() {
         return 0.0;
     }
 }

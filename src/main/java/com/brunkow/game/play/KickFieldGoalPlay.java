@@ -8,10 +8,9 @@ import org.slf4j.LoggerFactory;
 
 public class KickFieldGoalPlay extends Play {
     private static final Logger logger = LoggerFactory.getLogger(KickFieldGoalPlay.class);
-    KickFieldGoalPlay(Game game, GameContext gameContext) {
-        super(game, gameContext);
-    }
+
     public void go() {
+        double rawPower = getRandomPower(1000);
         if (kick()) {
             nextEvent = GameEvent.NextEvent.KICKFIELDGOAL;
         } else {
@@ -39,7 +38,7 @@ public class KickFieldGoalPlay extends Play {
         }
     }
 
-    public double getPower() {
+    public double getTeamPlayPower() {
         return 0.0;
     }
 }

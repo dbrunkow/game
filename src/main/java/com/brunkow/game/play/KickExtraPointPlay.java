@@ -9,12 +9,9 @@ import org.slf4j.LoggerFactory;
 public class KickExtraPointPlay extends Play {
     private static final Logger logger = LoggerFactory.getLogger(KickExtraPointPlay.class);
 
-    KickExtraPointPlay(Game game, GameContext gameContext) {
-        super(game, gameContext);
-    }
-
     public void go() {
         nextEvent = GameEvent.NextEvent.EXTRAPOINT;
+        double rawPower = getRandomPower(1000);
         if (gameContext.isDirection()) {
             gameContext.setYardLine(97);
         } else {
@@ -23,7 +20,7 @@ public class KickExtraPointPlay extends Play {
         gameContext.setDown(1);
     }
 
-    public double getPower() {
+    public double getTeamPlayPower() {
         return 0.0;
     }
 }

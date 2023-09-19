@@ -9,12 +9,9 @@ import org.slf4j.LoggerFactory;
 public class SafetyKickoffPlay extends Play {
     private static final Logger logger = LoggerFactory.getLogger(SafetyKickoffPlay.class);
 
-    SafetyKickoffPlay(Game game, GameContext gameContext) {
-        super(game, gameContext);
-    }
-
     public void go() {
         nextEvent = GameEvent.NextEvent.SAFETYKICKOFF;
+        double rawPower = getRandomPower(1000);
         //gameContext.changePossession();
         if (gameContext.isDirection())
             gameContext.setYardLine(35);
@@ -23,7 +20,7 @@ public class SafetyKickoffPlay extends Play {
         this.elapsedTime = 6;
     }
 
-    public double getPower() {
+    public double getTeamPlayPower() {
         return 0.0;
     }
 }

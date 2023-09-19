@@ -1,19 +1,20 @@
 package com.brunkow.game.service;
 
 import com.brunkow.game.GameContext;
-import com.brunkow.game.dao.DepthChartRepository;
-import com.brunkow.game.event.*;
-import com.brunkow.game.play.Play;
 import com.brunkow.game.dao.GameRepository;
+import com.brunkow.game.dao.TeamRepository;
+import com.brunkow.game.play.Play;
+import com.brunkow.game.dao.DepthChartRepository;
+import com.brunkow.game.event.GameEvent;
 import com.brunkow.game.vo.Game;
 import com.brunkow.game.vo.Team;
-import com.brunkow.game.dao.TeamRepository;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.math3.util.Precision;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import com.brunkow.game.display.Print;
 
 import javax.transaction.Transactional;
 
@@ -51,7 +52,7 @@ public class GameService {
         game.setScoreTeamA(0);
         game.setScoreTeamB(0);
         gameRepository.save(game);
-        gameContext.printYards();
+        gameContext.printStats();
     }
 
     private void runQuarter(Game game, GameContext gameContext) {
@@ -64,18 +65,18 @@ public class GameService {
         while ((gameContext.getClock() < 900) || (gameContext.getGameSituation().equals(GameEvent.GameSituation.TOUCHDOWN))){
             play = Play.createPlay(game, gameContext);
             play.addDepthChartRepository(depthChartRepository);
-            play.go();
             printBuffer = new StringBuffer();
             printBuffer.append(
                     StringUtils.rightPad(gameContext.getOffenseTeamName(), 30) + " " +
                             StringUtils.rightPad(play.getClass().getSimpleName(), 20) + " " +
                             " L:" + round(gameContext.getYardLine()) +
                             " D:" + StringUtils.leftPad(Integer.toString(gameContext.getDown()), 3));
+            play.go();
             event = GameEvent.getInstance(play, gameContext);
             event.go();
             gameContext.addClock(play.getElapsedTime());
             printBuffer.append(
-                    " Y:" + round(play.getYards()) +
+                    "\t\tY:" + round(play.getYards()) +
                     " S:" + round(gameContext.getSeries()) +
                     " L:" + round(gameContext.getYardLine()) + " ");
             printBuffer.append(StringUtils.rightPad(event.getClass().getSimpleName(), 20) + " ");
@@ -84,7 +85,8 @@ public class GameService {
                                     " ( " + gameContext.getScore(gameContext.TEAM_A) + " )   " +
                                 gameContext.getTeams().get(gameContext.TEAM_B).getFullName() +
                                     " ( " + gameContext.getScore(gameContext.TEAM_B) + " )   ");
-            logger.debug(printBuffer.toString());
+            logger.debug(Print.print(gameContext.getYardLine(), gameContext.getOffenseTeam().getName().charAt(0)));
+            //logger.debug(printBuffer.toString());
             gameContext.setGameSituation(event.getGameSituation());
         }
     }

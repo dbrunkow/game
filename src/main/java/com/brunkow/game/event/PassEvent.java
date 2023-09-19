@@ -12,6 +12,7 @@ public class PassEvent extends GameEvent  {
     }
     @Override
     public void go() {
+        /*
         gameContext.addYards(play.getYards());
         if (gameContext.isFourthDown()) {
             logger.debug("Turnover on downs");
@@ -24,5 +25,7 @@ public class PassEvent extends GameEvent  {
         } else {
             gameContext.addDown();
         }
+
+         */
     }
 }

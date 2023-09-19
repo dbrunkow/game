@@ -30,13 +30,13 @@ insert into team (NAME, LOCATION, OC_ID, DC_ID, STC_ID, HC_ID, POWER) VALUES ('W
 insert into team (NAME, LOCATION, OC_ID, DC_ID, STC_ID, HC_ID, POWER) VALUES ('Indians', 'Wentzville',        2,  8, 14, 20, 12);
 insert into team (NAME, LOCATION, OC_ID, DC_ID, STC_ID, HC_ID,POWER) VALUES ('Panthers', 'Fort Zumwalt',      3,  9, 15, 21, 13);
 insert into team (NAME, LOCATION, OC_ID, DC_ID, STC_ID, HC_ID,POWER) VALUES ('Vikings', 'Francis Howell',     4, 10, 16, 22, 15);
-insert into team (NAME, LOCATION, OC_ID, DC_ID, STC_ID, HC_ID, POWER) VALUES ('Pirates', 'St. Charles',       5, 11, 17, 23, 15);
+insert into team (NAME, LOCATION, OC_ID, DC_ID, STC_ID, HC_ID, POWER) VALUES ('Pirates', 'St. Charles',       5, 11, 17, 23, 12);
 
 insert into player (ID, FIRST_NAME, LAST_NAME, POSITION, TEAM_ID, POWER) VALUES (1, 'Leopoldo', 'Erving', 'QB', 1, 10);
 insert into player (ID, FIRST_NAME, LAST_NAME, POSITION, TEAM_ID, POWER) VALUES (2, 'Burl', 'Przybylski', 'QB', 2, 11);
 insert into player (ID, FIRST_NAME, LAST_NAME, POSITION, TEAM_ID, POWER) VALUES (3, 'Jerrold', 'Ohern', 'QB', 3, 11);
 insert into player (ID, FIRST_NAME, LAST_NAME, POSITION, TEAM_ID, POWER) VALUES (4, 'Richard', 'Hutcheson', 'QB', 4, 12);
-insert into player (ID, FIRST_NAME, LAST_NAME, POSITION, TEAM_ID, POWER) VALUES (5, 'Ollie', 'Lute', 'QB', 5, 15);
+insert into player (ID, FIRST_NAME, LAST_NAME, POSITION, TEAM_ID, POWER) VALUES (5, 'Ollie', 'Lute', 'QB', 5, 25);
 
 insert into player (ID, FIRST_NAME, LAST_NAME, POSITION, TEAM_ID, POWER) VALUES (6, 'Sid', 'Grothe', 'RB', 1, 10);
 insert into player (ID, FIRST_NAME, LAST_NAME, POSITION, TEAM_ID, POWER) VALUES (7, 'Granville', 'Smith', 'RB', 2, 11);

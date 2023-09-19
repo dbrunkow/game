@@ -13,7 +13,7 @@ public class TouchdownEvent extends GameEvent {
 
     public void go() {
         this.gameSituation = GameSituation.TOUCHDOWN;
-        gameContext.addYards(play.getYards());
+        //gameContext.addYards(play.getYards());
         gameContext.setSeries(0);
         gameContext.addScore(6);
     }

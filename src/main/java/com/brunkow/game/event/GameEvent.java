@@ -42,9 +42,9 @@ public class GameEvent {
     }
     public static GameEvent getInstance(Play play, GameContext gameContext) {
         GameEvent event;
-        if (gameContext.isTouchdown(play.getYards())) {
+        if (gameContext.isTouchdown()) {
             event = new TouchdownEvent(play, gameContext);
-        } else if (gameContext.isSafety(play.getYards())) {
+        } else if (gameContext.isSafety()) {
             event = new SafetyEvent(play, gameContext);
         } else {
             if (NextEvent.RUN.equals(play.nextEvent)) {

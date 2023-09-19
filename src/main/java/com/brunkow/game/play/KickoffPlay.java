@@ -9,12 +9,9 @@ import org.slf4j.LoggerFactory;
 public class KickoffPlay extends Play {
     private static final Logger logger = LoggerFactory.getLogger(KickoffPlay.class);
 
-    KickoffPlay(Game game, GameContext gameContext) {
-        super(game, gameContext);
-    }
-
     public void go() {
         nextEvent = GameEvent.NextEvent.KICKOFF;
+        double rawPower = getRandomPower(1000);
         if (gameContext.isDirection())
             gameContext.setYardLine(35);
         else
@@ -22,7 +19,7 @@ public class KickoffPlay extends Play {
         this.elapsedTime = 6;
     }
 
-    public double getPower() {
+    public double getTeamPlayPower() {
         return 0.0;
     }
 }
